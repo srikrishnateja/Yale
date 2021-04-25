@@ -1,0 +1,31 @@
+Table : Pet_University
+Pet_first_name, Pet_last_name, Pet_type, Owner_fist_name, Owner_last_name, Enrollment_date, Month, location,course_name,course_instructor,course_price,hold_type,hold_description,hold_date,grade
+pet1f, pet1l, dog, owner1f,owner1l,01-03-2021, 03,New Haven,Dog Grooming,xyz,150,Financial Hold, full tuition is not paid,01-03-2021,FAIL
+pet2f, pet2l, cat, owner2f,owner2l,01-03-2021, 03,Hamden,Pet Grooming, xyz,100,Vaccination Hold,missing vaccination information,01-03-2021,FAIL
+pet3f, pet3l, dog, owner3f,owner3l,01-03-2021, 03,New Haven,Dog Grooming,xyz,150,null,null,null,PASS
+pet4f, pet4l, cat, owner4f,owner4l,01-03-2021, 03,Hamden,Pet Grooming, xyz,100,null,null,null,PASS
+pet5f, pet5l, cat, owner5f,owner5l,01-04-2021, 04,Hamden,Pet Grooming, xyz,100,null,null,null,null
+
+1)How many new pets are enrollment in each course per month?
+select Pet_first_name, Pet_last_name, Pet_type, Owner_fist_name, Owner_last_name, Enrollment_date,
+Month, location from pet_university;
+pet1f, pet1l, dog, owner1f,owner1l,01-03-2021, 03,New Haven,Dog Grooming,xyz,150,Financial Hold, full tuition is not paid,01-03-2021,FAIL
+pet2f, pet2l, cat, owner2f,owner2l,01-03-2021, 03,Hamden,Pet Grooming, xyz,100,Vaccination Hold,missing vaccination information,01-03-2021,FAIL
+pet3f, pet3l, dog, owner3f,owner3l,01-03-2021, 03,New Haven,Dog Grooming,xyz,150,null,null,null,PASS
+pet4f, pet4l, cat, owner4f,owner4l,01-03-2021, 03,Hamden,Pet Grooming, xyz,100,null,null,null,PASS
+pet5f, pet5l, cat, owner5f,owner5l,01-04-2021, 04,Hamden,Pet Grooming, xyz,100,null,null,null,null
+
+2)Missing grades report?
+select Pet_first_name, Pet_last_name, Owner_fist_name, Owner_last_name, course_name,
+course_instructor from pet_university;
+pet5f, pet5l, cat, owner5f,owner5l,01-04-2021, 04,Hamden,Pet Grooming, xyz,100,null,null,null,null
+
+3)Are there holds (financial hold, vaccinations) on the pets that would prevent them from continuing with their
+training?
+select Pet_first_name, Pet_last_name, Owner_fist_name, Owner_last_name, hold_type, hold_description,
+month, hold_date, course_price from pet_university;
+pet1f, pet1l, dog, owner1f,owner1l,01-03-2021, 03,New Haven,Dog Grooming,xyz,150,Financial Hold, full tuition is not paid,01-03-2021,FAIL
+pet2f, pet2l, cat, owner2f,owner2l,01-03-2021, 03,Hamden,Pet Grooming, xyz,100,Vaccination Hold,missing vaccination information,01-03-2021,FAIL
+
+
+
