@@ -1,0 +1,70 @@
+1) Write a query to select all rows from person.  If the person row has a value in preferred_first_name, select the preferred name instead of the value in first name.  Alias the column as REPORTING_NAME.
+ SELECT COALESCE(preferred_first_name,first_name) as REPORTING_NAME FROM person;
+
+# REPORTING_NAME
+'abc'
+'test'
+2) Write a query to select all rows from person that have a NULL occupation.
+	SELECT * FROM person where occupation is null;
+
+# person_id, first_name, preferred_first_name, last_name, date_of_birth, hire_date, occupation
+'1', 'abc', 'x', 'xyz', '1989-02-28', '1989-02-28', NULL
+3) Write a query to select all rows from person that have a date_of_birth before August 7th, 1990.             
+	SELECT * FROM person where date_of_birth < '1990-08-07';
+
+# person_id, first_name, preferred_first_name, last_name, date_of_birth, hire_date, occupation
+'1', 'abc', 'x', 'xyz', '1989-02-28', '1989-02-28', NULL
+4) Write a query to select all rows from person that have a hire_date in the past 100 days.
+	SELECT * FROM person where DATEDIFF(now(),hire_date) <=100;
+
+# person_id, first_name, preferred_first_name, last_name, date_of_birth, hire_date, occupation
+'2', 'test', 't', 'clear', '1994-03-23', '2018-12-05', 'S'
+5) Write a query to select rows from person that also have a row in address with address_type = 'HOME'.
+	SELECT * FROM person p
+inner join address a
+ON p.person_id = a.person_id
+where a.address_type ='HOME';
+
+# person_id, first_name, preferred_first_name, last_name, date_of_birth, hire_date, occupation, address_id, person_id, address_type, street_line_1, city, state, zip_code
+'1', 'abc', 'x', 'xyz', '1989-02-28', '1989-02-28', NULL, '1', '1', 'HOME', '89', 'KC', 'TX', '123'
+6) Write a query to select all rows from person and only those rows from address that have a matching billing address (address_type = 'BILL').  If a matching billing address does not exist, display 'NONE' in the address_type column.
+SELECT if(address_type ='BILL',address_type,'NONE') as address_type  FROM person p
+left join address a
+ON p.person_id = a.person_id;
+
+# address_type
+'NONE'
+'BILL'
+7)  Write a query to count the number of addresses per address type.
+	Output:
+
+	address_type     count
+       -------------   ------
+       HOME                99
+       BILL               150
+
+SELECT address_type, count(address_type) as count FROM address group by address_type;
+	
+# address_type, 	count
+HOME		 1
+BILL		1
+8)  Write a query to select data in the following format:
+
+	last_name           home_address                          billing_address
+	------------------  ------------------------------------  ---------------------------------------
+	Smith               89 Lyon Circle, Clifton, VA 12345     25 Science Park, New Haven, CT 06511
+	Jones               212 Maple Ave, Manassas, VA 22033     275 Winchester Ave, New Haven, CT 06511
+
+SELECT last_name,CONCAT(street_line_1, ' , ', city,' , ',state,' , ',zip_code) AS home_address,
+ CONCAT(street_line_1, ' , ', city,' , ',state,' , ',zip_code) AS billing_address FROM person p
+inner join address a
+ON p.person_id = a.person_id;
+	
+# last_name, 	home_address, 	billing_address
+'xyz', 	'89 , KC , TX , 123', 	'89 , KC , TX , 123'
+'reddy',	 '45 , AZ , CO , 345',	 '45 , AZ , CO , 345' 
+
+9) Write a query to update the person.occupation column to ‘X’ for all rows that have a ‘BILL’ address in the address table.
+update person p,address a set p.occupation= 'X' 
+where  p.person_id = a.person_id and a.address_type = 'BILL';
+1 row(s) affected Rows
